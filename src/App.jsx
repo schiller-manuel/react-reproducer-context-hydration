@@ -5,6 +5,7 @@ import {
   Suspense,
   lazy,
   memo,
+  startTransition
 } from "react";
 
 /**
@@ -30,7 +31,9 @@ const MyContext = createContext(0);
 function RerenderingProvider({ children }) {
   const [value, rerender] = useReducer((x) => x + 1, 0);
   useEffect(() => {
-    rerender();
+    startTransition(() => {
+      rerender();
+    });
   }, []);
   return <MyContext value={value}>{children}</MyContext>;
 }
